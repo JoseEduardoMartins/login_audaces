@@ -10,30 +10,42 @@
 
     <title>Audaces - Login</title>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <script>
-        function authenticate () {
-          const settings = {
-            "url": "http://localhost:3000/user/login",
-            "method": "POST",
-            "timeout": 0,
-            "headers": {
-              "Content-Type": "application/json"
-            },
-            "data": JSON.stringify({
-              "email": $('#email').text(),
-              "password": $('#password').text()
-            }),
-          };
-          $.ajax(settings).done(function (response) {
-            console.log(response);
-          });
-        }
-      </script>
+      function authenticate () {
+        const settings = {
+          "url": "http://localhost:3000/user/login",
+          "method": "POST",
+          "timeout": 0,
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "data": JSON.stringify({
+            "email": $('#email').val(),
+            "password": $('#password').val()
+          }),
+        };
+        $.ajax(settings)
+        .done(function(result){
+          if(result.message == undefined){
+            sessionStorage.setItem('token', result.token)
+            sessionStorage.setItem('user', result.data)
+            window.location.href = "home.html";
+          } else {
+            alert(result.message)
+          }
+        })
+        .fail(function(jqXHR, textStatus, msg){
+          alert(msg)
+        });
+      }
+    </script>
 </head>
 <body>
     <div class="contaider">
         <center><img class="contaider_logo" src="https://audaces.com/wp-content/themes/Audaces-2018/img/logo.svg"></center>
-        <form class="contaider_form">
+        <form class="contaider_form" onsubmit="authenticate()">
             <fieldset>
                 <legend> Fazer login</legend>
                 <input id="email" type="email" name="email" required placeholder="E-mail"> <br>
@@ -41,7 +53,7 @@
                 <a class="forgot_password" href="#"> Esqueceu sua senha? </a>
             </fieldset>
             <a class="register" href="./register.html">Cadastro</a>
-            <button class="enter" type="submit" onclick="authenticate()"> Entrar </button>
+            <button class="enter" type="submit"> Entrar </button>
         </form>
     </div>
 </body>
