@@ -28,8 +28,8 @@
                 $.ajax(settings)
                 .done(function (response) {
                     if(response.message == undefined || response.message == null){
-                        console.log(response.token)
-                        console.log(response.data)
+                        sessionStorage.setItem('token', response.token)
+                        sessionStorage.setItem('user', response.data)
                         token = response.token
                         user = response.data
                     } else {
@@ -43,9 +43,13 @@
                 })
             })()
         }
+        function signOut () {
+            sessionStorage.clear();
+            window.location.href = "./index.html";
+        }
     </script>
 </head>
 <body>
-    <h1 id="h1"></h1>
+    <button onclick="signOut()">sair</button>
 </body>
 </html>

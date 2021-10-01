@@ -51,7 +51,12 @@
         })
         .fail(function(response){
           if(response.responseJSON.code == 10){
-            alert(response.responseJSON.message)
+            if (response.responseJSON.error.errno == 1062){
+              alert("Usuario existente no sistema!")
+            } else {
+              alert(response.responseJSON.error)
+            }
+            
           } else {
             const obj = JSON.parse(jqXHR.responseText)
             for (i in obj) {
@@ -74,8 +79,8 @@
             <input id="cpf" type="text" minlength="11" required maxlength="14" placeholder="CPF" title="Digite um CPF no formato: xxx.xxx.xxx-xx">
             <input id="number" type="text" required minlength="11" maxlength="14" placeholder="Telefone" title="Digite um numero de telefone no formato: xx xxxxx-xxxx"> <br>
             <input id="email" type="email" required class="email" placeholder="E-mail"> <br>
-            <input id="password" type="password" required minlength="8" placeholder="Senha" title="A senha deve conter 8 ou mais caracteres com pelo menos um número e uma letra maiúscula e minúscula">
-            <input id="confirmPassword" type="password" required minlength="8" placeholder="Confirmar Senha" title="A senha deve conter 8 ou mais caracteres com pelo menos um número e uma letra maiúscula e minúscula">
+            <input id="password" type="password" required minlength="8" autocomplete="off" placeholder="Senha" title="A senha deve conter 8 ou mais caracteres com pelo menos um número e uma letra maiúscula e minúscula">
+            <input id="confirmPassword" type="password" required minlength="8" autocomplete="off" placeholder="Confirmar Senha" title="A senha deve conter 8 ou mais caracteres com pelo menos um número e uma letra maiúscula e minúscula">
             <br><br>
             <a class="login_back" href="./index.html"> Voltar para pagina de login </a>
             <button type="submit"> Cadastrar </button>
