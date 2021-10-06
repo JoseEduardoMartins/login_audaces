@@ -13,26 +13,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
-      // function getParameter(theParameter) {
-      //   var params = window.location.search.substr(1).split('&');
-
-      //   for (var i = 0; i < params.length; i++) {
-      //       var p = params[i].split('=');
-      //       if (p[0] == theParameter) {
-      //         return decodeURIComponent(p[1]);
-      //       }
-      //   }
-      //   return ""
-      // }
-      //document.getElementById('pessoa').value = getParameter('namePeople')
-      //alert(getParameter('namePeople'))
       function register(){
         let settings = {
           "url": "http://localhost:3000/user/register",
           "method": "POST",
-          "timeout": 0,
+          "async": false,
+         // "timeout": 0,
           "headers": {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json"  
           },
           "data": JSON.stringify({
             "namePeople": $('#namePeople').val(),
@@ -46,46 +34,43 @@
         }
         $.ajax(settings)
         .done(function (response) {
-          alert(response.message)
+          alert(response.message);
           window.location.href = "./index.html"
         })
         .fail(function(response){
           if(response.responseJSON.code == 10){
             if (response.responseJSON.error.errno == 1062){
-              alert("Usuario existente no sistema!")
+              alert("Usuario existente no sistema!");
             } else {
-              alert(response.responseJSON.error)
+              alert(response.responseJSON.error);
             }
-            
           } else {
-            const obj = JSON.parse(jqXHR.responseText)
+            const obj = JSON.parse(response.responseText);
             for (i in obj) {
               alert(obj[i])
             };
           }
+          //return false;
         })
-        return false
       }
     </script>
 </head>
 <body>
-    <div class="container">
-        <img class="container_logo" src="https://audaces.com/wp-content/themes/Audaces-2018/img/logo.svg">
-        <form onsubmit="return register();">
-          <fieldset>
-            <legend> Cadastro de Cliente </legend>
-            <input id="namePeople" type="text" required title="É possivel apenas utilização de letras!" placeholder="Nome Completo">
-            <input id="nameCompany" type="text" required placeholder="Nome da Empresa"> <br>
-            <input id="cpf" type="text" minlength="11" required maxlength="14" placeholder="CPF" title="Digite um CPF no formato: xxx.xxx.xxx-xx">
-            <input id="number" type="text" required minlength="11" maxlength="14" placeholder="Telefone" title="Digite um numero de telefone no formato: xx xxxxx-xxxx"> <br>
-            <input id="email" type="email" required class="email" placeholder="E-mail"> <br>
-            <input id="password" type="password" required minlength="8" autocomplete="off" placeholder="Senha" title="A senha deve conter 8 ou mais caracteres com pelo menos um número e uma letra maiúscula e minúscula">
-            <input id="confirmPassword" type="password" required minlength="8" autocomplete="off" placeholder="Confirmar Senha" title="A senha deve conter 8 ou mais caracteres com pelo menos um número e uma letra maiúscula e minúscula">
-            <br><br>
-            <a class="login_back" href="./index.html"> Voltar para pagina de login </a>
-            <button type="submit"> Cadastrar </button>
-          </fieldset>
-        </form>
+  <div class="container">
+      <img class="container_logo" src="https://audaces.com/wp-content/themes/Audaces-2018/img/logo.svg">
+      <div class="container_form">
+        <legend> Cadastro de Cliente </legend>
+        <input id="namePeople" type="text" required title="É possivel apenas utilização de letras!" placeholder="Nome Completo">
+        <input id="nameCompany" type="text" required placeholder="Nome da Empresa"> <br>
+        <input id="cpf" type="text" minlength="11" required maxlength="14" placeholder="CPF" title="Digite um CPF no formato: xxx.xxx.xxx-xx">
+        <input id="number" type="text" required minlength="11" maxlength="14" placeholder="Telefone" title="Digite um numero de telefone no formato: xx xxxxx-xxxx"> <br>
+        <input id="email" type="email" required class="email" placeholder="E-mail"> <br>
+        <input id="password" type="password" required minlength="8" autocomplete="off" placeholder="Senha" title="A senha deve conter 8 ou mais caracteres com pelo menos um número e uma letra maiúscula e minúscula">
+        <input id="confirmPassword" type="password" required minlength="8" autocomplete="off" placeholder="Confirmar Senha" title="A senha deve conter 8 ou mais caracteres com pelo menos um número e uma letra maiúscula e minúscula">
+        <br><br>
+        <a class="login_back" href="./index.html"> Voltar para pagina de login </a>
+        <button onclick="register();"> Cadastrar </button>
       </div>
+    </div>
 </body>
 </html>
